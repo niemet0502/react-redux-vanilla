@@ -3,6 +3,8 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
+import FormInput from "./components/FormInput";
+import FormTextArea from "./components/FormTextArea";
 import TasksTable from "./components/TasksTable";
 import { addTask, deleteTask, getTask, updateTask } from "./store/taskActions";
 import { tasksSelector } from "./store/taskSelectors";
@@ -44,27 +46,33 @@ function App() {
     <h2 className="text-center text-underline">Create new Task</h2>
     <div className="form col-md-6 offset-3">
       <form onSubmit={task.id ? edit: submit}>
-      <div className="form-group">
-        <label htmlFor="task">Task</label>
-        <input type="text" name="title" value={task.title} onChange={handleInputChange} className="form-control mt-2" id="task" aria-describedby="taskHelp" />
-      </div>
 
-      <div className="form-group mt-4">
-        <label htmlFor="sdetails">Details</label>
-        <textarea className="form-control mt-2" value={task.detail} name="detail" onChange={handleInputChange} id="details" rows="3">
-          
-        </textarea>
-      </div>
+      <FormInput
+        name="title"
+        value={task.title}
+        handleChange={handleInputChange}
+        label="Title"
+      />
+      
+      <FormTextArea
+        name="detail"
+        label="Details"
+        value={task.detail}
+        handleChange={handleInputChange}
+      />
       <div className="form-check m-2">
-        <input type="checkbox" checked={task.isDueDate} name="isDueDate" onChange={(e) => setTask({...task, isDueDate: !task.isDueDate })} className="form-check-input" id="isDueDate" />
+        <input type="checkbox" checked={task.isDueDate} name="isDueDate" onChange={() => setTask({...task, isDueDate: !task.isDueDate })} className="form-check-input" id="isDueDate" />
         <label className="form-check-label" htmlFor="isDueDate">This task have due date ?? </label>
       </div>
 
       {task.isDueDate && (
-        <div className="form-group">
-          <label htmlFor="task">Date</label>
-          <input type="date" value={task.date} name="date" onChange={handleInputChange} className="form-control mt-2" id="task" aria-describedby="taskHelp" />
-        </div>
+        <FormInput
+          name="date"
+          value={task.date}
+          handleChange={handleInputChange}
+          label="Date"
+          type="date"
+        />
       )}
 
       <div className="d-flex justify-content-center pt-4">
